@@ -1,4 +1,8 @@
+// ignore_for_file: sort_child_properties_last
+
+import 'package:badges/badges.dart' as badges show Badge;
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -15,6 +19,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
         title: Text('Product List'),
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
+        actions: [
+          badges.Badge(
+            badgeContent: Text('0'),
+            child: Icon(Icons.shopping_bag_outlined),
+            badgeAnimation: BadgeAnimation.fade(
+              animationDuration: Duration(seconds: 2),
+            ),
+          ),
+
+          SizedBox(width: 20),
+        ],
       ),
     );
   }
