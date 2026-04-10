@@ -20,11 +20,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
         actions: [
-          badges.Badge(
-            badgeContent: Text('0'),
-            child: Icon(Icons.shopping_bag_outlined),
-            badgeAnimation: BadgeAnimation.fade(
-              animationDuration: Duration(seconds: 2),
+          Center(
+            child: badges.Badge(
+              badgeContent: Text('0',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                backgroundColor: Colors.amber,
+              ),
+              ),
+              child: Icon(Icons.shopping_bag_outlined),
+              badgeAnimation: BadgeAnimation.fade(
+                animationDuration: Duration(seconds: 2),
+              ),
             ),
           ),
 
