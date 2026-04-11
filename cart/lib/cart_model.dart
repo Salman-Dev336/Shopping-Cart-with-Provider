@@ -28,17 +28,16 @@ class Cart {
       unitTag = res['unitTag'],
       image = res['image'];
 
-
-      Map<String, Object?> toMap(){
-        return{
-          'id': id,
-          'productId': productId,
-          'productName': productName,
-          'initialPrice': initialPrice,
-          'productPrice': productPrice,
-          'quantity': quantity,
-          'unitTag': unitTag,
-          'image': image,
-        };
-      }
+  Map<String, Object?> toMap() {
+    return {
+      'id': id,
+      'productId': productId,
+      'productName': productName,
+      'initialPrice': initialPrice,
+      'productPrice': productPrice,
+      'quantity': quantity,
+      'unitTag': unitTag,
+      'image': image,
+    };
+  }
 }
