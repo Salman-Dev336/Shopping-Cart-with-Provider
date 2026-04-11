@@ -20,10 +20,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
     'https://image.shutterstock.com/image-photo/mango-isolated-on-white-background-600w-610892249.jpg' ,
     'https://image.shutterstock.com/image-photo/orange-fruit-slices-leaves-isolated-600w-1386912362.jpg' ,
     'https://image.shutterstock.com/image-photo/green-grape-leaves-isolated-on-600w-533487490.jpg' ,
-    'https://media.istockphoto.com/photos/banana-picture-id1184345169?s=612x612' ,
-    'https://media.istockphoto.com/photos/cherry-trio-with-stem-and-leaf-picture-id157428769?s=612x612' ,
-    'https://media.istockphoto.com/photos/single-whole-peach-fruit-with-leaf-and-slice-isolated-on-white-picture-id1151868959?s=612x612' ,
-    'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612' ,
+    'https://image.shutterstock.com/image-photo/banana-isolated-on-white-background-600w-610892247.jpg' ,
+    'https://image.shutterstock.com/image-photo/cherry-isolated-on-white-background-600w-610892248.jpg' ,
+    'https://image.shutterstock.com/image-photo/peach-isolated-on-white-background-600w-610892250.jpg' ,
+    'https://image.shutterstock.com/image-photo/mixed-fruit-basket-isolated-on-600w-610892251.jpg' ,
   ] ;
   @override
   Widget build(BuildContext context) {
@@ -57,18 +57,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 300,
+              itemCount: productName.length,
               itemBuilder: (context, index){
                 return Card(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(index.toString()),
-                          Spacer(),
-                        ],
-                      )
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image(
+                              height: 100,
+                              width: 100,
+                              image: NetworkImage(productImage[index].toString()),
+                              ),
+                            Text(index.toString()),
+                            Spacer(),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
 
                 );
