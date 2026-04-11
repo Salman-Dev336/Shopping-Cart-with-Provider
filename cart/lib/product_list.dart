@@ -64,16 +64,33 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
                           children: [
                             Image(
                               height: 100,
                               width: 100,
                               image: NetworkImage(productImage[index].toString()),
                               ),
-                            Text(index.toString()),
+                            Text(productName[index].toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(productUnit[index].toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
                             Spacer(),
                           ],
                         )
