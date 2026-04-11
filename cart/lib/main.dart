@@ -1,7 +1,7 @@
 import 'package:cart/product_list.dart';
 import 'package:flutter/material.dart';
 
-void main(){
+void main() {
   runApp(const MyApp());
 }
 
@@ -13,10 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-
-      ),
+      theme: ThemeData(primarySwatch: Colors.lightGreen),
       home: ProductListScreen(),
     );
   }
