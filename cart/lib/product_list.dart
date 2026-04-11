@@ -1,8 +1,7 @@
 // ignore_for_file: sort_child_properties_last
 
-import 'package:badges/badges.dart' as badges show Badge;
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -12,137 +11,141 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  int cartCount = 0;
+
   List<String> productName = [
     'Mango',
     'Orange',
     'Grapes',
     'Banana',
-    'Chery',
+    'Cherry',
     'Peach',
     'Mixed Fruit Basket',
   ];
+
   List<String> productUnit = ['KG', 'Dozen', 'KG', 'Dozen', 'KG', 'KG', 'KG'];
+
   List<int> productPrice = [10, 20, 30, 40, 50, 60, 70];
+
   List<String> productImage = [
-    'https://image.shutterstock.com/image-photo/mango-isolated-on-white-background-600w-610892249.jpg',
-    'https://image.shutterstock.com/image-photo/orange-fruit-slices-leaves-isolated-600w-1386912362.jpg',
-    'https://image.shutterstock.com/image-photo/green-grape-leaves-isolated-on-600w-533487490.jpg',
-    'https://image.shutterstock.com/image-photo/banana-isolated-on-white-background-600w-610892247.jpg',
-    'https://image.shutterstock.com/image-photo/cherry-isolated-on-white-background-600w-610892248.jpg',
-    'https://image.shutterstock.com/image-photo/peach-isolated-on-white-background-600w-610892250.jpg',
-    'https://image.shutterstock.com/image-photo/mixed-fruit-basket-isolated-on-600w-610892251.jpg',
+    'https://images.unsplash.com/photo-1553279768-865429fa0078', // Mango
+    'https://images.unsplash.com/photo-1580910051074-3eb694886505', // Orange
+    'https://images.unsplash.com/photo-1596363505729-4190a9506133', // Grapes
+    'https://images.unsplash.com/photo-1574226516831-e1dff420e12c', // Banana
+    'https://images.unsplash.com/photo-1615485291234-0b66d3a9d2d4', // Cherry
+    'https://images.unsplash.com/photo-1595475207225-428b62bda831', // Peach
+    'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2', // Mixed
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product List'),
+        title: const Text('Product List'),
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
         actions: [
           Center(
             child: badges.Badge(
               badgeContent: Text(
-                '0',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  // backgroundColor: Colors.amber,
-                ),
+                cartCount.toString(),
+                style: const TextStyle(color: Colors.white, fontSize: 13),
               ),
-              child: Icon(Icons.shopping_bag_outlined),
-              badgeAnimation: BadgeAnimation.fade(
-                animationDuration: Duration(seconds: 2),
-              ),
+              child: const Icon(Icons.shopping_bag_outlined),
             ),
           ),
-
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: productName.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+
+      body: ListView.builder(
+        itemCount: productName.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.all(10),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  /// 🔹 Product Image
+                  Image(
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                    image: NetworkImage(productImage[index]),
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.image_not_supported, size: 100);
+                    },
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  /// 🔹 Product Details
+                  Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Image(
-                              height: 100,
-                              width: 100,
-                              image: NetworkImage(
-                                productImage[index].toString(),
-                              ),
-                            ),
-                             SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    productName[index].toString(),
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '${productUnit[index]} ${productPrice[index]}',
-                                   
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                    SizedBox(height: 10),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      height: 35,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        color: Colors.lightGreen,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Add to Cart',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
-                                        )
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        Text(
+                          productName[index],
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
 
-                            Spacer(),
-                          ],
+                        const SizedBox(height: 10),
+
+                        Text(
+                          '${productUnit[index]}  \$${productPrice[index]}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        /// 🔹 Add to Cart Button
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                cartCount++;
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '${productName[index]} added to cart',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 35,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                color: Colors.lightGreen,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Add to Cart',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
