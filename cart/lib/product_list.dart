@@ -1,7 +1,11 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: avoid_print, unused_local_variable, sort_child_properties_last
 
 import 'package:badges/badges.dart' as badges;
+import 'package:cart/cart_model.dart';
+import 'package:cart/cart_provider.dart';
+import 'package:cart/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -11,6 +15,7 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  DBHelper dbHelper = DBHelper();
   int cartCount = 0;
 
   List<String> productName = [
@@ -39,6 +44,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -54,9 +61,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
         actions: [
           Center(
             child: badges.Badge(
-              badgeContent: Text(
-                cartCount.toString(),
-                style: const TextStyle(color: Colors.white, fontSize: 13),
+              badgeContent: Consumer<CartProvider>(
+                builder: (context, value, child){
+                  return Text(
+                    value.getCounter().toString(),
+                  // cartCount.toString(),
+                  style: const TextStyle(color: Colors.white, fontSize: 13),
+                );
+                },
               ),
               child: const Icon(Icons.shopping_bag_outlined),
             ),
@@ -114,6 +126,31 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
                             onTap: () {
+                              dbHelper
+                                  .insert(
+                                    Cart(
+                                      id: index,
+                                      productId: index.toString(),
+                                      productName: productName[index]
+                                          .toString(),
+                                      initialPrice:
+                                          productPrice[index].toString(), 
+                                      productPrice:
+                                          productPrice[index].toString(), 
+                                      quantity: 1,
+                                      unitTag: productUnit[index],
+                                      image: productImage[index],
+                                    ),
+                                  )
+                                  .then((value) {
+                                    print('Product added to cart');
+                                    cart.addTotalPrice(double.parse(productPrice[index].toString()));
+                                    cart.addCounter();
+                                  })
+                                  .catchError((error) {
+                                    print(error.toString());
+                                  });
+
                               setState(() {
                                 cartCount++;
                               });
