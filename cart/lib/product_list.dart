@@ -16,7 +16,7 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   DBHelper dbHelper = DBHelper();
-  int cartCount = 0;
+  // int cartCount = 0;
 
   List<String> productName = [
     'Mango',
@@ -151,9 +151,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     print(error.toString());
                                   });
 
-                              setState(() {
-                                cartCount++;
-                              });
+                              // setState(() {
+                              //   cartCount++;
+                              // });
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
