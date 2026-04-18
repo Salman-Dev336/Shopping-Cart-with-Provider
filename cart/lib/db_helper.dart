@@ -35,8 +35,15 @@ class DBHelper {
   }
 
   Future<Cart> insert(Cart cart) async {
+    print('Inserting product into cart: ${cart.productName}');
     final dbClient = await db;
     await dbClient.insert('cart', cart.toMap());
     return cart;
   }
+
+    Future<Cart> getCartList() async {
+    final dbClient = await db;
+    final List<Map<String, Object?>> queryResult = await dbClient!.query('cart');
+    return queryResult.map(e) => Cart.fromMap(e)).toList();
+    }
 }
