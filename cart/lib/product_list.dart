@@ -3,6 +3,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:cart/cart_model.dart';
 import 'package:cart/cart_provider.dart';
+import 'package:cart/cart_screen.dart';
 import 'package:cart/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,18 +61,27 @@ class _ProductListScreenState extends State<ProductListScreen> {
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
         actions: [
-          Center(
-            child: badges.Badge(
-              badgeContent: Consumer<CartProvider>(
-                builder: (context, value, child){
-                  return Text(
-                    value.getCounter().toString(),
-                  // cartCount.toString(),
-                  style: const TextStyle(color: Colors.white, fontSize: 13),
+          InkWell(
+            onTap:() {
+              Navigator.push(
+                context, MaterialPageRoute(
+                  builder: (context)=> CartScreen(),
+                ),
                 );
-                },
+            },
+            child: Center(
+              child: badges.Badge(
+                badgeContent: Consumer<CartProvider>(
+                  builder: (context, value, child){
+                    return Text(
+                      value.getCounter().toString(),
+                    // cartCount.toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                  );
+                  },
+                ),
+                child: const Icon(Icons.shopping_bag_outlined),
               ),
-              child: const Icon(Icons.shopping_bag_outlined),
             ),
           ),
           const SizedBox(width: 20),
