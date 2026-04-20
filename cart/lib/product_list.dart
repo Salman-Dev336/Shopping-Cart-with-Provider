@@ -145,9 +145,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                       productName: productName[index]
                                           .toString(),
                                       initialPrice:
-                                          productPrice[index].toString(), 
+                                          productPrice[index], 
                                       productPrice:
-                                          productPrice[index].toString(), 
+                                          productPrice[index], 
                                       quantity: 1,
                                       unitTag: productUnit[index],
                                       image: productImage[index],
