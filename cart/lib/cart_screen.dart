@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:cart/cart_model.dart';
 import 'package:cart/cart_provider.dart';
 import 'package:flutter/material.dart';
