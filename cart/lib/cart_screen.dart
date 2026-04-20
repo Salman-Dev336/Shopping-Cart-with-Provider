@@ -16,9 +16,11 @@ class _CartScreenState extends State<CartScreen> {
   late Future<List<Cart>> cartData;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    cartData = (await Provider.of<CartProvider>(context, listen: false).getData()) as Future<List<Cart>>;
+
+    // ✅ Correct way (no async / await)
+    cartData = Provider.of<CartProvider>(context, listen: false).getData();
   }
 
   @override
@@ -64,21 +66,21 @@ class _CartScreenState extends State<CartScreen> {
             future: cartData,
             builder: (context, snapshot) {
 
-              /// 🔄 Loading State
+              /// 🔄 Loading
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Expanded(
                   child: Center(child: CircularProgressIndicator()),
                 );
               }
 
-              /// ❌ Error State
+              /// ❌ Error
               if (snapshot.hasError) {
                 return const Expanded(
                   child: Center(child: Text('Something went wrong')),
                 );
               }
 
-              /// 📭 Empty State
+              /// 📭 Empty
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Expanded(
                   child: Center(
@@ -91,11 +93,13 @@ class _CartScreenState extends State<CartScreen> {
               }
 
               /// ✅ Data Loaded
+              final items = snapshot.data!;
+
               return Expanded(
                 child: ListView.builder(
-                  itemCount: snapshot.data!.length,
+                  itemCount: items.length,
                   itemBuilder: (context, index) {
-                    final item = snapshot.data![index];
+                    final item = items[index];
 
                     return Card(
                       margin: const EdgeInsets.all(10),
@@ -104,7 +108,7 @@ class _CartScreenState extends State<CartScreen> {
                         child: Row(
                           children: [
 
-                            /// 🔹 Product Image
+                            /// 🔹 Image
                             Image(
                               height: 100,
                               width: 100,
@@ -120,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
 
                             const SizedBox(width: 10),
 
-                            /// 🔹 Product Details
+                            /// 🔹 Details
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,13 +147,11 @@ class _CartScreenState extends State<CartScreen> {
 
                                   const SizedBox(height: 10),
 
-                                  /// 🔹 Add to Cart Button (UNCHANGED)
+                                  /// 🔹 Button (unchanged)
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        // intentionally left empty (as you requested)
-                                      },
+                                      onTap: () {},
                                       child: Container(
                                         height: 35,
                                         width: 110,
