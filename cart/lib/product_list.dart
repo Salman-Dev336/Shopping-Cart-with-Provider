@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_local_variable, sort_child_properties_last
+// ignore_for_file: avoid_print
 
 import 'package:badges/badges.dart' as badges;
 import 'package:cart/cart_model.dart';
@@ -17,8 +17,6 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   DBHelper dbHelper = DBHelper();
-  // int cartCount = 0;
-  // int _counter = 0;
 
   List<String> productName = [
     'Mango',
@@ -35,13 +33,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
   List<int> productPrice = [10, 20, 30, 40, 50, 60, 70];
 
   List<String> productImage = [
-    'https://images.unsplash.com/photo-1553279768-865429fa0078', // Mango
-    'https://images.unsplash.com/photo-1580910051074-3eb694886505', // Orange
-    'https://images.unsplash.com/photo-1596363505729-4190a9506133', // Grapes
-    'https://images.unsplash.com/photo-1574226516831-e1dff420e12c', // Banana
-    'https://images.unsplash.com/photo-1615485291234-0b66d3a9d2d4', // Cherry
-    'https://images.unsplash.com/photo-1595475207225-428b62bda831', // Peach
-    'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2', // Mixed
+    'https://images.unsplash.com/photo-1553279768-865429fa0078',
+    'https://images.unsplash.com/photo-1580910051074-3eb694886505',
+    'https://images.unsplash.com/photo-1596363505729-4190a9506133',
+    'https://images.unsplash.com/photo-1574226516831-e1dff420e12c',
+    'https://images.unsplash.com/photo-1615485291234-0b66d3a9d2d4',
+    'https://images.unsplash.com/photo-1595475207225-428b62bda831',
+    'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2',
   ];
 
   @override
@@ -62,22 +60,25 @@ class _ProductListScreenState extends State<ProductListScreen> {
         backgroundColor: Colors.lightGreen,
         actions: [
           InkWell(
-            onTap:() {
+            onTap: () {
               Navigator.push(
-                context, MaterialPageRoute(
-                  builder: (context)=> CartScreen(),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CartScreen(),
                 ),
-                );
+              );
             },
             child: Center(
               child: badges.Badge(
                 badgeContent: Consumer<CartProvider>(
-                  builder: (context, value, child){
+                  builder: (context, value, child) {
                     return Text(
                       value.getCounter().toString(),
-                    // cartCount.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 13),
-                  );
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    );
                   },
                 ),
                 child: const Icon(Icons.shopping_bag_outlined),
@@ -104,13 +105,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     fit: BoxFit.cover,
                     image: NetworkImage(productImage[index]),
                     errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.image_not_supported, size: 100);
+                      return const Icon(
+                        Icons.image_not_supported,
+                        size: 100,
+                      );
                     },
                   ),
 
                   const SizedBox(width: 10),
 
-                  /// 🔹 Product Details
+                  /// 🔹 Details
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,37 +146,30 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     Cart(
                                       id: index,
                                       productId: index.toString(),
-                                      productName: productName[index]
-                                          .toString(),
-                                      initialPrice:
-                                          productPrice[index], 
-                                      productPrice:
-                                          productPrice[index], 
+                                      productName: productName[index],
+                                      initialPrice: productPrice[index], // ✅ FIXED
+                                      productPrice: productPrice[index], // ✅ FIXED
                                       quantity: 1,
                                       unitTag: productUnit[index],
                                       image: productImage[index],
                                     ),
                                   )
-                                  .then((value) {
-                                    print('Product added to cart');
-                                    cart.addTotalPrice(double.parse(productPrice[index].toString()));
+                                  .then((_) {
+                                    cart.addTotalPrice(
+                                        productPrice[index].toDouble());
                                     cart.addCounter();
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          '${productName[index]} added to cart',
+                                        ),
+                                      ),
+                                    );
                                   })
                                   .catchError((error) {
-                                    print(error.toString());
+                                    print("ERROR: $error");
                                   });
-
-                              // setState(() {
-                              //   _counter = cart.getCounter();
-                              // });
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '${productName[index]} added to cart',
-                                  ),
-                                ),
-                              );
                             },
                             child: Container(
                               height: 35,
